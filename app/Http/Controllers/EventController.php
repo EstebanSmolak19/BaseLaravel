@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
 use App\Models\Type;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -15,7 +16,8 @@ class EventController extends Controller
         $events = Event::all();
 
         return view('index', [
-            'events' => $events
+            'events' => $events,
+            'user' => Auth::user()
         ]);
     }
 
@@ -43,11 +45,17 @@ class EventController extends Controller
     public function show(string $id)
     {
         $event = Event::with('Type')->findOrFail($id);
+        $estPasse = $this->estPasse($id);
+        $joursAvant = $this->joursAvant($id);
+        $formatDate = $this->formatDate($id);
 
         $this->authorize('view', $event);
 
         return view('show', [
-            'event' => $event
+            'event' => $event,
+            'estPasse' => $estPasse,
+            'joursAvant' => $joursAvant,
+            'formatDate' => $formatDate
         ]);
     }
 
@@ -86,5 +94,62 @@ class EventController extends Controller
         $event->delete();
 
         return redirect()->route('app.index')->with('success', 'Événement supprimé avec succès');
+    }
+
+    public function estPasse(string $id): bool 
+    {
+        $event = Event::FindOrFail($id);
+        if($event && $event->Date) {
+            return strtotime($event->Date) < strtotime(date('Y-m-d'));
+        }
+        return false;
+    }
+
+    public function joursAvant(string $id): int 
+    {
+        $event = Event::findOrFail($id);
+
+        if ($event && $event->Date) {
+            $eventDate = strtotime(date('Y-m-d', strtotime($event->Date)));
+            $today = strtotime(date('Y-m-d'));
+
+            $diff = $eventDate - $today;
+            $jours = (int) ($diff / 86400);
+
+            return $jours < 0 ? 0 : $jours;
+        }
+        return 0;
+    }
+
+    public function formatDate(string $id): string 
+    {
+        $event = Event::findOrFail($id);
+
+        if ($event->Date) {
+            $timestamp = strtotime($event->Date);
+
+            $mois = [
+                1 => 'janvier',
+                2 => 'février',
+                3 => 'mars',
+                4 => 'avril',
+                5 => 'mai',
+                6 => 'juin',
+                7 => 'juillet',
+                8 => 'août',
+                9 => 'septembre',
+                10 => 'octobre',
+                11 => 'novembre',
+                12 => 'décembre'
+            ];
+
+            $jour = date('d', $timestamp);
+            $moisNom = $mois[(int)date('m', $timestamp)];
+            $annee = date('Y', $timestamp);
+
+            return "$jour $moisNom $annee";
+        }
+
+        return '';
     }
 }

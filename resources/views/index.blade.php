@@ -38,12 +38,16 @@
         </table>
 
         <div>
-        @can('create', $event)
-            <a href={{ route('app.create') }} class="btn btn-primary">
-                Créer un Evenement
-            </a>
-        @endcan
-            <a href="{{ route('logout') }}" class="btn btn-danger">Se déconnecter</a>
+            @can('create', $event)
+                <a href={{ route('app.create') }} class="btn btn-primary">
+                    Créer un Evenement
+                </a>
+            @endcan
+                <a href="{{ route('logout') }}" class="btn btn-danger">Se déconnecter</a>
+
+            @if($user->role == 'admin')
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-warning">Dashboard Administrateur</a>
+            @endif
         </div>
     </div>
 </div>

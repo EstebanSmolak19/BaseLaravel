@@ -44,7 +44,29 @@
                                 </div>
                             </div>
 
-                            <!-- Type d'événement -->
+                            <div class="mb-4">
+                                <label for="DateEvenement" class="form-label fw-semibold fs-6">
+                                    <i class="bi bi-calendar-event text-primary me-2"></i>Date de l'Événement
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text bg-light">
+                                        <i class="bi bi-calendar-date text-muted"></i>
+                                    </span>
+                                    <input type="date"
+                                        class="form-control @error('DateEvenement') is-invalid @enderror"
+                                        id="Date"
+                                        name="Date"
+                                        value="{{ old('Date') }}"
+                                        required>
+                                    @error('DateEvenement')
+                                        <div class="invalid-feedback">
+                                            <i class="bi bi-exclamation-triangle me-1"></i>{{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="mb-4">
                                 <label for="TypeId" class="form-label fw-semibold fs-6">
                                     <i class="bi bi-collection text-primary me-2"></i>Type d'Événement
@@ -73,7 +95,6 @@
                                 </div>
                             </div>
 
-                            <!-- Description -->
                             <div class="mb-4">
                                 <label for="Description" class="form-label fw-semibold fs-6">
                                     <i class="bi bi-text-paragraph text-primary me-2"></i>Description
@@ -96,10 +117,8 @@
                                 </div>
                             </div>
 
-                            <!-- Séparateur -->
                             <hr class="my-4">
 
-                            <!-- Boutons d'action -->
                             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                                 <button type="submit" class="btn btn-primary btn-lg px-5 me-md-3">
                                     <i class="bi bi-plus-circle me-2"></i>

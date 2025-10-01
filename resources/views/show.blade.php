@@ -25,14 +25,41 @@
            
                         <div class="text-center mb-5">
                             <h2 class="display-6 fw-bold text-dark mb-3">{{ $event->Nom }}</h2>
-                            <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                            <div class="d-flex flex-wrap justify-content-center align-items-center gap-3 mb-3">
+
                                 <span class="badge bg-info bg-opacity-20 text-info fs-6 px-4 py-2 rounded-pill text-white">
                                     <i class="bi bi-tag me-2"></i>{{ $event->type->Nom ?? 'Type non défini' }}
                                 </span>
+
+                                @if($event->Date)
+                                    <span class="badge bg-secondary fs-6 px-4 py-2 rounded-pill">
+                                        <i class="bi bi-calendar3 me-2"></i>{{ $formatDate }}
+                                    </span>
+                                @else
+                                    <span class="badge bg-secondary fs-6 px-4 py-2 rounded-pill">
+                                        <i class="bi bi-calendar3 me-2"></i> Prochainement ... 
+                                    </span>
+                                @endif
+
+                                @if($estPasse)
+                                    <span class="badge bg-danger fs-6 px-4 py-2 rounded-pill">
+                                        <i class="bi bi-x-circle me-2"></i>Événement passé
+                                    </span>
+                                @elseif($event->Date)
+                                    @if($joursAvant > 0)
+                                        <span class="badge bg-primary fs-6 px-4 py-2 rounded-pill">
+                                            <i class="bi bi-hourglass-split me-2"></i>Dans {{ $joursAvant }} jour{{ $joursAvant > 1 ? 's' : '' }}
+                                        </span>
+                                    @elseif($joursAvant === 0)
+                                        <span class="badge bg-warning fs-6 px-4 py-2 rounded-pill">
+                                            <i class="bi bi-sunrise me-2"></i>Aujourd'hui
+                                        </span>
+                                    @endif
+                                @endif
                             </div>
                         </div>
 
-
+                        <!-- Description -->
                         <div class="row mb-5">
                             <div class="col-12">
                                 <div class="card bg-light border-0 h-100">
@@ -65,21 +92,23 @@
                         <!-- Séparateur -->
                         <hr class="my-5 border-2">
 
+                        <!-- Actions -->
                         <div class="text-center">
                             <h5 class="mb-4 text-muted">
                                 <i class="bi bi-gear me-2"></i>Actions disponibles
                             </h5>
                             <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-3">
-                                <!-- Retour -->
+
                                 <a href="{{ route('app.index') }}" class="btn btn-outline-secondary btn-lg px-4">
                                     <i class="bi bi-arrow-left me-2"></i>Retour à la liste
                                 </a>
                                 
                                 @can('update', $event)
-                                <!-- Modifier -->
-                                <a href="{{ route('app.edit', $event->Id) }}" class="btn btn-warning btn-lg px-4">
-                                    <i class="bi bi-pencil-square me-2"></i>Modifier l'événement
-                                </a>
+                                    @if(!$estPasse)
+                                        <a href="{{ route('app.edit', $event->Id) }}" class="btn btn-warning btn-lg px-4">
+                                            <i class="bi bi-pencil-square me-2"></i>Modifier l'événement
+                                        </a>
+                                    @endif
                                 @endcan
                             </div>
                         </div>

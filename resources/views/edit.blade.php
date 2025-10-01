@@ -7,18 +7,16 @@
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-8">
                 <div class="card shadow-lg border-0 rounded-4">
-    
-                    <div class="card-header bg-warning text-white py-4 rounded-top-4">
-                        <div class="text-center">
-                            <div class="mb-3">
-                                <i class="bi bi-pencil-square display-4"></i>
-                            </div>
-                            <h1 class="h2 mb-2 fw-bold">Modifier l'Événement</h1>
-                            <div class="d-flex justify-content-center align-items-center gap-2">
-                                <span class="badge bg-light text-warning fs-6 px-3 py-2">
-                                    <i class="bi bi-gear me-1"></i>Mode édition
-                                </span>
-                            </div>
+
+                    <div class="card-header bg-warning text-white text-center py-4 rounded-top-4">
+                        <div class="mb-3">
+                            <i class="bi bi-pencil-square display-4"></i>
+                        </div>
+                        <h1 class="h2 mb-2 fw-bold">Modifier l'Événement</h1>
+                        <div class="d-flex justify-content-center align-items-center gap-2">
+                            <span class="badge bg-light text-warning fs-6 px-3 py-2">
+                                <i class="bi bi-gear me-1"></i>Mode édition
+                            </span>
                         </div>
                     </div>
 
@@ -52,6 +50,30 @@
                                 </div>
                             </div>
 
+                            <!-- Date de l'événement -->
+                            <div class="mb-4">
+                                <label for="Date" class="form-label fw-semibold fs-6">
+                                    <i class="bi bi-calendar-event text-primary me-2"></i>Date de l'Événement
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text bg-light">
+                                        <i class="bi bi-calendar-date text-muted"></i>
+                                    </span>
+                                    <input type="date"
+                                           class="form-control @error('Date') is-invalid @enderror"
+                                           id="Date"
+                                           name="Date"
+                                           value="{{ old('Date', $event->Date) }}"
+                                           required>
+                                    @error('Date')
+                                        <div class="invalid-feedback">
+                                            <i class="bi bi-exclamation-triangle me-1"></i>{{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <!-- Type d'événement -->
                             <div class="mb-4">
                                 <label for="TypeId" class="form-label fw-semibold fs-6">
@@ -68,7 +90,7 @@
                                             required>
                                         <option value="">-- Sélectionnez un type --</option>
                                         @foreach($types as $type)
-                                            <option value="{{ $type->Id }}">
+                                            <option value="{{ $type->Id }}" {{ old('TypeId', $event->TypeId) == $type->Id ? 'selected' : '' }}>
                                                 {{ $type->Nom }}
                                             </option>
                                         @endforeach
@@ -104,26 +126,24 @@
                                 </div>
                             </div>
 
-                            <!-- Séparateur -->
-                            <hr class="my-5 border-2">
+                            <hr class="my-4">
 
                             <!-- Actions -->
                             <div class="text-center">
                                 <h5 class="mb-4 text-muted">
                                     <i class="bi bi-gear me-2"></i>Actions disponibles
                                 </h5>
-                                <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center gap-3">
-                                    <!-- Annuler -->
+                                <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
                                     <a href="{{ route('app.show', $event->Id) }}" class="btn btn-outline-secondary btn-lg px-4">
                                         <i class="bi bi-x-circle me-2"></i>Annuler
                                     </a>
                                     
-                                    <!-- Sauvegarder -->
                                     <button type="submit" class="btn btn-success btn-lg px-4">
                                         <i class="bi bi-check-circle me-2"></i>Sauvegarder les modifications
                                     </button>
                                 </div>
                             </div>
+
                         </form>
                     </div>
                 </div>

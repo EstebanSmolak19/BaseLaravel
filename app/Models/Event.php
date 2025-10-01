@@ -18,11 +18,22 @@ class Event extends Model
         'Id',
         'Nom',
         'Description',
-        'TypeId'
+        'TypeId',
+        'Date'
     ];
 
     public function Type() {
         return $this->belongsTo(Type::class, 'TypeId');
+    }
+
+    public static function countPast(): int
+    {
+        return Event::where('Date', '<', now())->count();
+    }
+
+    public static function countUpcoming(): int
+    {
+        return Event::where('Date', '>=', now())->count();
     }
 
     /**

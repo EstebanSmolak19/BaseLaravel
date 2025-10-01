@@ -9,7 +9,6 @@ class Type extends Model
     protected $table = 'Type';
 
     protected $fillable = [
-        'Id',
         'Nom'
     ];
 

@@ -24,7 +24,8 @@ class StoreEventRequest extends FormRequest
         return [
             'Nom' => 'required|min:3|max:50',
             'Description' => '',
-            'TypeId' => 'exists:Type,Id'
+            'TypeId' => 'exists:Type,Id',
+            'Date' => 'required|date'
         ];
     }
 }
