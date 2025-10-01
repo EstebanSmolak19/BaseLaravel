@@ -11,8 +11,8 @@ class AdminController extends Controller
     {
         // Statistiques globales
         $totalEvents = Event::count();
-        $countEventPast = Event::where('Date', '<', now())->count();
-        $countUpcoming = Event::where('Date', '>=', now())->count();
+        $countEventPast = Event::countPast();
+        $countUpcoming = Event::countUpcoming();
 
         // Derniers événements pour le tableau
         $events = Event::with('Type')->orderBy('Date', 'desc')->take(10)->get();
