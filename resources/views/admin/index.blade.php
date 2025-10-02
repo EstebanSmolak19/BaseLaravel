@@ -16,7 +16,6 @@
         </div>
     </div>
 
-    <!-- Cartes de statistiques -->
     <div class="row mb-4 justify-content-center align-items-center text-center">
         <x-admin.card 
             label="Événements total"
@@ -110,12 +109,10 @@
     </div>
 </div>
 
-<!-- Inclure Chart.js via CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Graphique en ligne - Événements par mois (exemple statique)
     const eventsByMonthCtx = document.getElementById('eventsByMonthChart').getContext('2d');
     new Chart(eventsByMonthCtx, {
         type: 'line',
@@ -130,7 +127,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 fill: true
             }]
         },
-        options: { responsive: true, maintainAspectRatio: false }
     });
 
     // Graphique circulaire - Types d'événements (dynamique)

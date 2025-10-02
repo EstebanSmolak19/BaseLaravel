@@ -19,7 +19,10 @@ class Event extends Model
         'Nom',
         'Description',
         'TypeId',
-        'Date'
+        'Date',
+        'lieu',
+        'latitude',
+        'longitude'
     ];
 
     public function Type() {

@@ -10,17 +10,15 @@ class card extends Component
 {
     public $label;
     public $number;
-    public $progress;
     public $color;
     public $icon;
     /**
      * Create a new component instance.
      */
-    public function __construct($label, $number, $progress = null, $color = 'info', $icon = 'fa-clipboard-list')
+    public function __construct($label, $number, $color = 'info', $icon = 'fa-clipboard-list')
     {
         $this->label = $label;
         $this->number = $number;
-        $this->progress = $progress;
         $this->color = $color;
         $this->icon = $icon;
     }

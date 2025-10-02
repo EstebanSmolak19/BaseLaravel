@@ -50,6 +50,30 @@
                                 </div>
                             </div>
 
+                            <div class="mb-4">
+                                <label for="lieu" class="form-label fw-semibold fs-6">
+                                    <i class="bi bi-tag text-primary me-2"></i>Lieu
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text bg-light">
+                                        <i class="bi bi-pencil text-muted"></i>
+                                    </span>
+                                    <input type="text" 
+                                           class="form-control @error('lieu') is-invalid @enderror" 
+                                           id=lieum" 
+                                           name="lieu" 
+                                           value="{{ old('lieu', $event->lieu) }}" 
+                                           placeholder="Ex. Paris"
+                                           required>
+                                    @error('lieu')
+                                        <div class="invalid-feedback">
+                                            <i class="bi bi-exclamation-triangle me-1"></i>{{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <!-- Date de l'événement -->
                             <div class="mb-4">
                                 <label for="Date" class="form-label fw-semibold fs-6">

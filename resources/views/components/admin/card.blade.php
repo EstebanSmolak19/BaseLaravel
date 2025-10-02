@@ -10,18 +10,6 @@
                         <div class="col-auto">
                             <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $number }}</div>
                         </div>
-                        @if($progress !== null)
-                        <div class="col">
-                            <div class="progress progress-sm mr-2">
-                                <div class="progress-bar bg-{{ $color }}" role="progressbar"
-                                    style="width: {{ $progress }}%" 
-                                    aria-valuenow="{{ $progress }}" 
-                                    aria-valuemin="0"
-                                    aria-valuemax="100">
-                                </div>
-                            </div>
-                        </div>
-                        @endif
                     </div>
                 </div>
                 <div class="col-auto">

@@ -25,7 +25,8 @@ class StoreEventRequest extends FormRequest
             'Nom' => 'required|min:3|max:50',
             'Description' => '',
             'TypeId' => 'exists:Type,Id',
-            'Date' => 'required|date'
+            'Date' => 'required|date',
+            'lieu' => 'required|string'
         ];
     }
 }

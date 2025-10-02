@@ -5,15 +5,25 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use App\Http\Services\geolocalisationService;
 use App\Models\Event;
 use App\Models\Type;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Request;
 
 class EventController extends Controller
 {
+
+    public $geolocation;
+
+    public function __construct(geolocalisationService $geolocalisation)
+    {
+        $this->geolocation = $geolocalisation;
+    }
+
     public function index()
     {
-        $events = Event::all();
+        $events = Event::orderBy('Date', 'desc')->get();
 
         return view('index', [
             'events' => $events,
@@ -37,6 +47,13 @@ class EventController extends Controller
         $this->authorize('create', Event::class);
 
         $validated = $request->validated();
+        $coords = $this->geolocation->coord($validated['lieu']);
+
+        if ($coords) {
+            $validated['latitude'] = $coords['lat'];
+            $validated['longitude'] = $coords['lon'];
+        }
+        
         Event::create($validated);
 
         return redirect()->route('app.index')->with('success', 'Événement créé avec succès');
@@ -76,10 +93,16 @@ class EventController extends Controller
     public function update(UpdateEventRequest $request, string $id)
     {
         $event = Event::with('Type')->findOrFail($id);
-
         $this->authorize('update', $event);
 
         $validated = $request->validated();
+        $coords = $this->geolocation->coord($validated['lieu']);
+
+        if ($coords) {
+            $validated['latitude'] = $coords['lat'];
+            $validated['longitude'] = $coords['lon'];
+        }
+
         $event->update($validated);
 
         return redirect()->route('app.index')->with('success', 'Événement mis à jour avec succès');
